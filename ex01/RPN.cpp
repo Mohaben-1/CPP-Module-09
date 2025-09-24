@@ -63,8 +63,6 @@ void	RPN::calculate(const std::string& str)
 					}
 					container.push(num2 / num1);
 					break ;
-				default:
-					break ;
 			}
 		}
 		else

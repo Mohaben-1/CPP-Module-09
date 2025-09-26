@@ -11,20 +11,35 @@
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <sstream>
+
+bool parseInput(int ac, char **av, std::vector<int>& vec)
+{
+}
+
+template<typename Container>
+void printContainer(const Container& container, const std::string& prefix)
+{
+	std::cout << prefix;
+	for (size_t i = 0; i < container.size(); i++)
+	{
+		std::cout << container[i];
+		if (i != container.size() - 1)
+			std::cout << " ";
+	}
+	std::cout << std::endl;
+}
 
 int	main(int ac, char **av)
 {
 	if (ac < 2)
 	{
-		std::cerr << "Error" << std::endl;
+		std::cerr << "Usage: " << av[0] << " number1 number2 ..." << std::endl;
 		return (1);
 	}
 
 	std::vector<int>	vector;
 	std::deque<int>		deque;
 
-	for (int i = 1; i < ac; i++)
-	{
-		if (isdigit(av[i]))
-	}
+
 }

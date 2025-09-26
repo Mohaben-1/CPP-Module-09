@@ -12,3 +12,102 @@
 
 #include "PmergeMe.hpp"
 
+int	PmergeMe::jacobsthal(int n)
+{
+	if (n == 0)
+		return (0);
+	if (n == 1)
+		return (1);
+	return (jacobsthal(n - 1) + 2 * jacobsthal(n - 2));
+}
+
+std::vector<int>	PmergeMe::generate_insertion_sequence(int size)
+{
+	std::vector<int>	sequence;
+	int					i = 0;
+
+	while (jacobsthal(i + 1) <= size)
+		i++;
+	while (i > 0)
+	{
+		int	j = jacobsthal(i);
+		if (j <= size)
+			sequence.push_back(j);
+		i--;
+	}
+	for (int k = 1; k <= size; k++)
+	{
+		if (std::find(sequence.begin(), sequence.end(), k) == sequence.end())
+			sequence.push_back(k);
+	}
+	return (sequence);
+}
+
+template<typename Container>
+void	PmergeMe::merge_insertion_sort_impl(Container& container)
+{
+	if (container.size() < 2)
+		return ;
+	
+	Container	winner, loser;
+
+	for (size_t i = 0; i < container.size(); i += 2)
+	{
+		if (i + 1 >= container.size())
+		{
+			winner.push_back(container[i]);
+			break ;
+		}
+		if (container[i] > container[i + 1])
+		{
+			winner.push_back(container[i]);
+			loser.push_back(container[i + 1]);
+		}
+		else
+		{
+			winner.push_back(container[i + 1]);
+			loser.push_back(container[i]);
+		}
+	}
+	merge_insertion_sort_impl(winner);
+
+	std::vector<int>	sequence = generate_insertion_sequence(loser.size());
+
+	for (size_t i = 0; i < loser.size(); i++)
+	{
+		int	index = sequence[i] - 1;
+
+		if (index < static_cast<int>(loser.size()))
+		{
+			typename Container::iterator	it = std::upper_bound(winner.begin(), winner.end(), loser[index]);
+
+			winner.insert(it, loser[index]);
+		}
+	}
+	container = winner;
+}
+
+PmergeMe::PmergeMe() {}
+
+PmergeMe::PmergeMe(const PmergeMe& copy)
+{
+	static_cast<void>(copy);
+}
+
+PmergeMe&	PmergeMe::operator=(const PmergeMe& copy)
+{
+	static_cast<void>(copy);
+	return (*this);
+}
+
+PmergeMe::~PmergeMe() {}
+
+void	PmergeMe::sort(std::vector<int>& container)
+{
+	merge_insertion_sort_impl(container);
+}
+
+void	PmergeMe::sort(std::deque<int>& container)
+{
+	merge_insertion_sort_impl(container);
+}

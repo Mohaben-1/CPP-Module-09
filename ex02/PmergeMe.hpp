@@ -15,19 +15,25 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <deque>
 #include <vector>
 
 class	PmergeMe
 {
+	private:
+		int					jacobsthal(int n);
+		std::vector<int>	generate_insertion_sequence(int total);
+		template<typename Container>
+		void				merge_insertion_sort_impl(Container& container);
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe& copy);
 		PmergeMe&	operator=(const PmergeMe& copy);
 		~PmergeMe();
 
-	template<typename T>
-	void	fordJohnsonAlgo(T& container);
+		void	sort(std::vector<int>& container);
+		void	sort(std::deque<int>& container);
 };
 
 #endif

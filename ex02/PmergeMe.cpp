@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:26:55 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/25 18:27:07 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/27 13:17:04 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,28 @@ int	PmergeMe::jacobsthal(int n)
 
 std::vector<int>	PmergeMe::generate_insertion_sequence(int size)
 {
-	std::vector<int>	sequence;
-	int					i = 0;
+    std::vector<int>	sequence;
+    std::vector<int>	jacob;
 
-	while (jacobsthal(i + 1) <= size)
-		i++;
-	while (i > 0)
+    jacob.push_back(0);
+    jacob.push_back(1);
+
+    for (int i = 2; jacob.back() <= size; i++)
+        jacob.push_back(jacob[i-1] + 2 * jacob[i-2]);
+
+    for (size_t i = 2; i < jacob.size(); i++)
 	{
-		int	j = jacobsthal(i);
-		if (j <= size)
-			sequence.push_back(j);
-		i--;
-	}
-	for (int k = 1; k <= size; k++)
+        if (jacob[i] <= size)
+            sequence.push_back(jacob[i]);
+    }
+
+    for (int k = 1; k <= size; k++)
 	{
-		if (std::find(sequence.begin(), sequence.end(), k) == sequence.end())
-			sequence.push_back(k);
-	}
-	return (sequence);
+        if (!std::binary_search(sequence.begin(), sequence.end(), k))
+            sequence.push_back(k);
+    }
+
+    return (sequence);
 }
 
 template<typename Container>

@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 11:46:38 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/22 17:11:33 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/27 16:30:46 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ void	BitcoinExchange::processInput(const std::string& input)
 	std::string	line;
 
 	getline(file, line);
+	if (line.find(""))
 	while (getline(file, line))
 		processInputLine(line);
 	file.close();

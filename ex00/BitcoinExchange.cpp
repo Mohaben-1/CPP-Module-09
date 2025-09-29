@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 11:46:38 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/29 15:04:57 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:01:57 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ bool	BitcoinExchange::isValidDate(const std::string& date) const
 	return (day <= maxDay);
 }
 
-
-
-
 bool	BitcoinExchange::isValidValue(const std::string& value) const
 {
 	if (value.empty())
@@ -87,7 +84,7 @@ bool	BitcoinExchange::isValidValue(const std::string& value) const
 	}
 	if (val > 1000)
 	{
-		std::cout << "Error: too large a number." << std::endl;
+		std::cerr << "Error: too large a number." << std::endl;
 		return (false);
 	}
 	return (true);
@@ -140,11 +137,15 @@ void		BitcoinExchange::parseCsvLine(const std::string& line)
 
 	if (pos == std::string::npos)
 		return ;
-	std::string	date = line.substr(0, pos);
-	std::string	rateStr = line.substr(pos + 1);
-	float		rate = std::stof(rateStr);
 
-	container[date] = rate;
+	std::string			date = line.substr(0, pos);
+	std::string			rateStr = line.substr(pos + 1);
+	std::istringstream	iss(rateStr);
+	float				rate;
+
+	iss >> rate;
+	if (!iss.fail())
+		container[date] = rate;
 }
 
 void		BitcoinExchange::processInputLine(const std::string& line)
@@ -171,9 +172,11 @@ void		BitcoinExchange::processInputLine(const std::string& line)
 	if (!isValidValue(valueStr))
 		return ;
 
-	float	value = std::stof(valueStr);
-	float	rate = findExchangeRate(date);
+	float				rate = findExchangeRate(date);
+	std::istringstream	iss(valueStr);
+	float				value;
 
+	iss >> value;
 	if (rate < 0)
 	{
 		std::cerr << "Error: no exchange rate data available." << std::endl;
@@ -217,10 +220,7 @@ void	BitcoinExchange::processInput(const std::string& input)
 		std::cerr << "Error: empty file." << std::endl;
 		return ;
 	}
-
-	std::string	header = trim(line);
-
-	if (header.find("date") == std::string::npos || header.find("|") == std::string::npos || header.find("value") == std::string::npos)
+	if (line.find("date") == std::string::npos || line.find("|") == std::string::npos || line.find("value") == std::string::npos)
 	{
 		std::cerr << "Error: invalid header. Expected format with 'date' and 'value'" << std::endl;
 		return ;

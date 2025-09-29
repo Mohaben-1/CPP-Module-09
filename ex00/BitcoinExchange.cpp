@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 11:46:38 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/27 16:30:46 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:04:57 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ bool	BitcoinExchange::isValidDate(const std::string& date) const
 	return (day <= maxDay);
 }
 
+
+
+
 bool	BitcoinExchange::isValidValue(const std::string& value) const
 {
 	if (value.empty())
@@ -67,27 +70,27 @@ bool	BitcoinExchange::isValidValue(const std::string& value) const
 		std::cerr << "Error: bad input." << std::endl;
 		return (false);
 	}
-	try
-	{
-		float	val = std::stof(value);
 
-		if (val < 0)
-		{
-			std::cerr << "Error: not a positive number." << std::endl;
-			return (false);
-		}
-		if (val > 1000)
-		{
-			std::cout << "Error: too large a number." << std::endl;
-			return (false);
-		}
-		return (true);
-	}
-	catch (const std::exception& e)
+	std::istringstream	iss(value);
+	float				val;
+	char				leftover;
+
+	if (!(iss >> val) || (iss >> leftover))
 	{
-		std::cerr << "Error: invalid number format." << std::endl;
+		std::cerr << "Error: bad input." << std::endl;
 		return (false);
 	}
+	if (val < 0)
+	{
+		std::cerr << "Error: not a positive number." << std::endl;
+		return (false);
+	}
+	if (val > 1000)
+	{
+		std::cout << "Error: too large a number." << std::endl;
+		return (false);
+	}
+	return (true);
 }
 
 bool		BitcoinExchange::isAllDigits(const std::string& str) const
@@ -209,8 +212,19 @@ void	BitcoinExchange::processInput(const std::string& input)
 
 	std::string	line;
 
-	getline(file, line);
-	if (line.find(""))
+	if (!getline(file, line))
+	{
+		std::cerr << "Error: empty file." << std::endl;
+		return ;
+	}
+
+	std::string	header = trim(line);
+
+	if (header.find("date") == std::string::npos || header.find("|") == std::string::npos || header.find("value") == std::string::npos)
+	{
+		std::cerr << "Error: invalid header. Expected format with 'date' and 'value'" << std::endl;
+		return ;
+	}
 	while (getline(file, line))
 		processInputLine(line);
 	file.close();

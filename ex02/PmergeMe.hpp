@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:24:10 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/27 13:17:02 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 13:03:22 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@
 class	PmergeMe
 {
 	private:
-		int					jacobsthal(int n);
-		std::vector<int>	generate_insertion_sequence(int total);
+		std::vector<int>	generate_sequence(int total);
 		template<typename Container>
-		void				merge_insertion_sort_impl(Container& container);
+		void	merge_insert_impl(Container& container);
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe& copy);

@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:23:32 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/27 13:17:05 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 14:47:06 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ bool parseInput(int ac, char **av, std::vector<int>& vec)
 {
 	for (int i = 1; i < ac; i++)
 	{
-		std::stringstream	ss(av[i]);
+		std::istringstream	iss(av[i]);
 		int					num;
 
-		ss >> num;
-		if (ss.fail() || !ss.eof() || num < 0)
+		iss >> num;
+		if (iss.fail() || !iss.eof() || num < 0)
 		{
 			std::cerr << "Error" << std::endl;
 			return (false);

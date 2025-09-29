@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 11:23:35 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/22 12:52:48 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 13:16:14 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 class	BitcoinExchange
 {

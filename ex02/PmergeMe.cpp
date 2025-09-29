@@ -6,22 +6,28 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 18:26:55 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/27 13:17:04 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 14:13:09 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-int	PmergeMe::jacobsthal(int n)
+PmergeMe::PmergeMe() {}
+
+PmergeMe::PmergeMe(const PmergeMe& copy)
 {
-	if (n == 0)
-		return (0);
-	if (n == 1)
-		return (1);
-	return (jacobsthal(n - 1) + 2 * jacobsthal(n - 2));
+	static_cast<void>(copy);
 }
 
-std::vector<int>	PmergeMe::generate_insertion_sequence(int size)
+PmergeMe&	PmergeMe::operator=(const PmergeMe& copy)
+{
+	static_cast<void>(copy);
+	return (*this);
+}
+
+PmergeMe::~PmergeMe() {}
+
+std::vector<int>	PmergeMe::generate_sequence(int size)
 {
 	std::vector<int>	sequence;
 	std::vector<int>	jacob;
@@ -48,7 +54,7 @@ std::vector<int>	PmergeMe::generate_insertion_sequence(int size)
 }
 
 template<typename Container>
-void	PmergeMe::merge_insertion_sort_impl(Container& container)
+void	PmergeMe::merge_insert_impl(Container& container)
 {
 	if (container.size() < 2)
 		return ;
@@ -73,9 +79,9 @@ void	PmergeMe::merge_insertion_sort_impl(Container& container)
 			loser.push_back(container[i]);
 		}
 	}
-	merge_insertion_sort_impl(winner);
+	merge_insert_impl(winner);
 
-	std::vector<int>	sequence = generate_insertion_sequence(loser.size());
+	std::vector<int>	sequence = generate_sequence(loser.size());
 
 	for (size_t i = 0; i < loser.size(); i++)
 	{
@@ -91,27 +97,12 @@ void	PmergeMe::merge_insertion_sort_impl(Container& container)
 	container = winner;
 }
 
-PmergeMe::PmergeMe() {}
-
-PmergeMe::PmergeMe(const PmergeMe& copy)
-{
-	static_cast<void>(copy);
-}
-
-PmergeMe&	PmergeMe::operator=(const PmergeMe& copy)
-{
-	static_cast<void>(copy);
-	return (*this);
-}
-
-PmergeMe::~PmergeMe() {}
-
 void	PmergeMe::sort(std::vector<int>& container)
 {
-	merge_insertion_sort_impl(container);
+	merge_insert_impl(container);
 }
 
 void	PmergeMe::sort(std::deque<int>& container)
 {
-	merge_insertion_sort_impl(container);
+	merge_insert_impl(container);
 }

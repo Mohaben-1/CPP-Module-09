@@ -6,7 +6,7 @@
 /*   By: mohaben- <mohaben-@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 11:46:38 by mohaben-          #+#    #+#             */
-/*   Updated: 2025/09/29 16:01:57 by mohaben-         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:10:00 by mohaben-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ bool	BitcoinExchange::isValidValue(const std::string& value) const
 
 	std::istringstream	iss(value);
 	float				val;
-	char				leftover;
 
-	if (!(iss >> val) || (iss >> leftover))
+	if (!(iss >> val) || !iss.eof())
 	{
 		std::cerr << "Error: bad input." << std::endl;
 		return (false);
